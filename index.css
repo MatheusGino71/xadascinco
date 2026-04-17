@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos base com tipografia de marca */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
+  }
+  
+  body {
+    @apply font-lato;
+  }
+}
+
+/* Custom range slider styling - adaptado para paleta Xá das Cinco */
+input[type=range] {
+  -webkit-appearance: none;
+  background: transparent;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #504D4B;
+  cursor: pointer;
+  margin-top: -8px;
+  box-shadow: 0 0 0 4px #C4B09D;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: #8C8A82;
+  border-radius: 2px;
+}
+input[type=range]:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px #8C8A82;
+}
+
+/* Hide scrollbar para galeria mantendo funcionalidade */
+.hide-scroll::-webkit-scrollbar {
+  display: none;
+}
+.hide-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* FAQ Animation details */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] summary ~ * {
+  animation: sweep .3s ease-in-out;
+}
+@keyframes sweep {
+  0%    {opacity: 0; transform: translateY(-10px)}
+  100%  {opacity: 1; transform: translateY(0)}
+}
+
+/* Fade animation para filtragem de portfolio */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

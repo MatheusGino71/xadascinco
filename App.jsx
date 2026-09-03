@@ -82,6 +82,9 @@ function App() {
                 <div className="flex items-center gap-1 mb-1">
                   <span className="text-2xl font-bold tracking-tight text-[#504D4B] font-playfair">8+</span>
                 </div>
+
+
+                
                 <p className="leading-tight text-sm font-medium text-[#8C8A82]">Anos de Expertise</p>
               </div>
             </div>

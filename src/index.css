@@ -4,12 +4,38 @@
 
 /* Estilos base com tipografia de marca */
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-playfair;
   }
   
   body {
     @apply font-lato;
+    overflow-x: hidden;
+    min-width: 320px;
+  }
+
+  #root {
+    width: 100%;
+    overflow-x: clip;
+  }
+
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
@@ -70,4 +96,90 @@ details[open] summary ~ * {
 @keyframes fadeIn {
   0% { opacity: 0; transform: translateY(10px); }
   100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Ajustes de leitura e interação para telas estreitas e dispositivos touch. */
+@media (max-width: 639px) {
+  section,
+  header {
+    scroll-margin-top: 4.5rem;
+  }
+
+  #top h1 {
+    font-size: clamp(2.45rem, 12vw, 3.25rem);
+    max-width: 18ch;
+  }
+
+  #top p {
+    font-size: 1rem;
+  }
+
+  .portfolio-item > img {
+    opacity: 0.65;
+  }
+
+  .portfolio-item > div:nth-of-type(1) {
+    background-color: rgb(0 0 0 / 0.18);
+  }
+
+  .portfolio-item > div:last-child {
+    right: 1rem;
+    bottom: 1rem;
+    left: 1rem;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .clientes-wall-mobile-scroll .clientes-wall-card {
+    width: min(78vw, 220px);
+    height: 180px;
+    scroll-snap-align: start;
+  }
+
+  .clientes-wall-mobile-scroll > div {
+    scroll-snap-type: x proximity;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 16px;
+  }
+
+  .event-specialties > div {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .event-specialties > div > span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .event-specialties > div > span:last-child {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+@media (hover: none) {
+  .portfolio-item > div:last-child {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

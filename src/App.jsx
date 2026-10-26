@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 function App() {
   // State para Portfolio Filter
   const [filter, setFilter] = useState('all');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [quickActionsOpen, setQuickActionsOpen] = useState(false);
 
   // State para Briefing Form
   const [briefingForm, setBriefingForm] = useState({
@@ -29,8 +31,8 @@ function App() {
   return (
     <>
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-40 bg-[#F4F3F2]/80 backdrop-blur-md border-b border-[#8C8A82]/20">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <nav aria-label="Navegação principal" className="fixed top-0 w-full z-40 bg-[#F4F3F2]/90 backdrop-blur-md border-b border-[#8C8A82]/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src="/logos/XD5_SIMBOLO_VERSAO_COLORIDO.png" alt="Xá das Cinco Logo" className="h-10 w-10" />
             <span className="text-lg font-semibold text-[#504D4B] tracking-wider font-playfair">XÁ DAS CINCO</span>
@@ -43,14 +45,46 @@ function App() {
             <a href="#contact" className="text-sm font-medium transition-colors text-[#8C8A82] hover:text-[#504D4B]">Contato</a>
           </div>
 
-          <a href="#briefing" className="text-sm font-medium px-5 py-2.5 rounded-full transition-all shadow-sm bg-[#504D4B] hover:bg-[#8C8A82] text-white inline-block">
+          <a href="#briefing" className="hidden md:inline-flex text-sm font-medium px-5 py-2.5 rounded-full transition-all shadow-sm bg-[#504D4B] hover:bg-[#8C8A82] text-white">
             Falar com Especialista
           </a>
+          <button
+            type="button"
+            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#8C8A82]/30 text-[#504D4B]"
+            aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((open) => !open)}
+          >
+            <span className="sr-only">Menu</span>
+            <span className="flex flex-col gap-1.5">
+              <span className="block h-0.5 w-5 bg-current"></span>
+              <span className="block h-0.5 w-5 bg-current"></span>
+            </span>
+          </button>
         </div>
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-[#8C8A82]/20 bg-[#F4F3F2] shadow-lg">
+            <div className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4 sm:px-6">
+              {[
+                ['#expertise', 'Expertise'],
+                ['#methodology', 'Metodologia'],
+                ['#portfolio', 'Cases'],
+                ['#contact', 'Contato'],
+              ].map(([href, label]) => (
+                <a key={href} href={href} onClick={() => setMobileMenuOpen(false)} className="rounded-lg px-3 py-3 text-sm font-medium text-[#504D4B] transition-colors hover:bg-white">
+                  {label}
+                </a>
+              ))}
+              <a href="#briefing" onClick={() => setMobileMenuOpen(false)} className="mt-2 inline-flex items-center justify-center rounded-full bg-[#504D4B] px-5 py-3 text-sm font-medium text-white">
+                Falar com Especialista
+              </a>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
-      <header className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+      <header id="top" className="relative pt-28 pb-16 sm:pt-36 sm:pb-20 md:pt-48 md:pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">          <img src="/logos/XD5_SIMBOLO_VERSAO_COLORIDO.png" alt="Background" className="absolute right-0 top-1/2 transform -translate-y-1/2 w-96 h-96 opacity-5 z-0" />          <video autoPlay muted loop playsInline className="w-full h-full object-cover object-center lg:object-right">
             <source src="/media/VINHETA_XD5.mp4" type="video/mp4" />
             <source src="/media/VINHETA_XD5.mp4" type="video/mp4" />
@@ -59,7 +93,7 @@ function App() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#F4F3F2] via-[#F4F3F2]/95 to-transparent/10 md:bg-gradient-to-r md:from-[#F4F3F2] md:via-[#F4F3F2] md:to-transparent"></div>
         </div>
 
-        <div className="z-10 max-w-7xl mx-auto px-6 relative">
+        <div className="z-10 max-w-7xl mx-auto px-4 sm:px-6 relative">
           <div className="max-w-2xl">
             <span className="inline-block uppercase text-xs font-semibold text-[#8C8A82] tracking-[0.2em] bg-white/50 border-[#8C8A82] border rounded-full mb-6 pt-1 pr-3 pb-1 pl-3 backdrop-blur-sm">Comunicação Estratégica & Branding</span>
             <h1 className="leading-[0.95] uppercase md:text-7xl lg:text-7xl text-4xl font-semibold text-[#504D4B] tracking-tighter mb-8 font-playfair">Elevando marcas ao status de ícone.</h1>
@@ -68,12 +102,12 @@ function App() {
               Criamos conexões autênticas entre marcas de beleza, moda e lifestyle de alto padrão e o seu público. Construímos histórias, posicionamento e estética editorial.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-16">
-              <a href="#portfolio" className="inline-flex items-center justify-center transition-all hover:shadow-xl hover:-translate-y-0.5 hover:bg-[#8C8A82] font-medium text-white bg-[#504D4B] rounded-full pt-4 pr-8 pb-4 pl-8 shadow-lg">Explorar Cases</a>
-              <a href="#briefing" className="inline-flex items-center justify-center transition-all hover:bg-[#C4B09D]/10 font-medium text-[#504D4B] bg-white border-[#8C8A82] border rounded-full pt-4 pr-8 pb-4 pl-8">Solicitar Assessment</a>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-12 sm:mb-16">
+              <a href="#portfolio" className="w-full sm:w-auto inline-flex items-center justify-center transition-all hover:shadow-xl hover:-translate-y-0.5 hover:bg-[#8C8A82] font-medium text-white bg-[#504D4B] rounded-full px-6 sm:px-8 py-3.5 sm:py-4 shadow-lg">Explorar Cases</a>
+              <a href="#briefing" className="w-full sm:w-auto inline-flex items-center justify-center transition-all hover:bg-[#C4B09D]/10 font-medium text-[#504D4B] bg-white border-[#8C8A82] border rounded-full px-6 sm:px-8 py-3.5 sm:py-4">Solicitar Assessment</a>
             </div>
 
-            <div className="flex items-center gap-8 md:gap-12 pt-8 border-t border-[#8C8A82]/30">
+            <div className="flex items-center gap-4 sm:gap-8 md:gap-12 pt-6 sm:pt-8 border-t border-[#8C8A82]/30">
               <div>
                 <div className="flex items-center gap-1.5 mb-1">
                   <iconify-icon icon="solar:star-linear" style={{ strokeWidth: '1.5' }} className="w-5 h-5 text-xl text-[#504D4B] fill-[#504D4B]"></iconify-icon>
@@ -95,7 +129,7 @@ function App() {
 
       {/* SOBRE NÓS Section */}
       <section className="bg-white pt-24 pb-24 border-t border-[#8C8A82]/20">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <span className="uppercase block text-xs font-semibold text-[#8C8A82] tracking-[0.2em] mb-4">Nossa História</span>
@@ -111,7 +145,7 @@ function App() {
                 <p className="text-base text-[#8C8A82] italic mt-4">Encontrando Excelência em Cada Detalhe</p>
               </div>
             </div>
-            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-2xl group" style={{ perspective: '1200px' }}>
+            <div className="relative h-[380px] sm:h-[480px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl group" style={{ perspective: '1200px' }}>
               <img src="/apresentacao/C.R Hair 0871.jpg" alt="Sobre Nós" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" style={{ transformStyle: 'preserve-3d' }} />
               <div className="absolute inset-0 bg-gradient-to-t from-[#504D4B]/40 to-transparent group-hover:from-[#504D4B]/20 transition-all duration-300"></div>
               <style>{`
@@ -127,7 +161,7 @@ function App() {
       </section>
 
       {/* O QUE NOS MOVE Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden border-t border-[#8C8A82]/20">
+      <section className="relative min-h-[680px] sm:min-h-[760px] lg:h-screen flex items-center justify-center overflow-hidden border-t border-[#8C8A82]/20">
         <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
           <source src="/apresentacao/EVENTO TOP 10 CORRETORES SH PRIME.mp4" type="video/mp4" />
         </video>
@@ -135,8 +169,8 @@ function App() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <span className="uppercase block text-xs font-semibold text-[#C4B09D] tracking-[0.2em] mb-6">Nossos Valores</span>
-          <h2 className="text-5xl md:text-6xl font-semibold tracking-tight mb-8 text-white font-playfair">O Que Nos Move</h2>
-          <p className="text-lg md:text-xl text-[#F4F3F2]/90 max-w-3xl mx-auto mb-12">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight mb-6 sm:mb-8 text-white font-playfair">O Que Nos Move</h2>
+          <p className="text-base sm:text-lg md:text-xl text-[#F4F3F2]/90 max-w-3xl mx-auto mb-8 sm:mb-12">
             Somos o ponto de convergência para marcas que buscam autenticidade e inovação em seu posicionamento. Assim como o ritual britânico do chá das cinco une tradição e modernidade, a Xá das Cinco alia o espírito icônico e atemporal ao atendimento aos mais altos padrões de excelência.
           </p>
           <p className="text-xl font-semibold text-[#C4B09D] font-playfair mb-12">Onde o Moderno e o Clássico se Encontram.</p>
@@ -209,7 +243,7 @@ function App() {
               </a>
             </div>
 
-            <div className="relative h-96 lg:h-[500px] rounded-3xl overflow-hidden bg-gradient-to-br from-[#504D4B] via-[#8C8A82] to-[#504D4B] shadow-2xl group" style={{ perspective: '1200px' }}>
+            <div className="relative h-[380px] sm:h-96 lg:h-[500px] rounded-3xl overflow-hidden bg-gradient-to-br from-[#504D4B] via-[#8C8A82] to-[#504D4B] shadow-2xl group" style={{ perspective: '1200px' }}>
               <video autoPlay muted loop playsInline className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" style={{ transformStyle: 'preserve-3d' }}>
                 <source src="/media/video_01.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
@@ -385,7 +419,7 @@ function App() {
       <section className="bg-white pt-24 pb-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start mb-24">
-            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-xl order-2 lg:order-1">
+            <div className="relative h-[380px] sm:h-[480px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl order-2 lg:order-1">
               <img src="/apresentacao/SORTEIO VIRGÍNIA BRAÉ.jpeg" alt="Branding" className="w-full h-full object-cover" />
             </div>
             <div className="order-1 lg:order-2">
@@ -455,7 +489,7 @@ function App() {
               </ul>
             </div>
 
-            <div className="relative h-[600px] rounded-2xl overflow-hidden shadow-xl">
+            <div className="relative h-[380px] sm:h-[480px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl">
               <video autoPlay muted loop playsInline className="w-full h-full object-cover">
                 <source src="/apresentacao/MOTION LONDRES ESSENDY.mp4" type="video/mp4" />
               </video>
@@ -582,10 +616,10 @@ function App() {
 
       {/* EVENTOS */}
       <section className="bg-[#F4F3F2] py-24">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* Elevated Card Container */}
           <div className="p-[1px] rounded-3xl bg-gradient-to-b from-[#8C8A82]/30 via-[#8C8A82]/10 to-transparent">
-            <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl">
+            <div className="bg-white rounded-3xl p-5 sm:p-8 md:p-12 shadow-2xl">
               
               {/* Header Section */}
               <header className="flex flex-col md:flex-row md:items-center justify-between border-b border-[#8C8A82]/20 pb-8 mb-12 gap-6">
@@ -611,10 +645,10 @@ function App() {
               </header>
 
               {/* Main Content Grid */}
-              <div className="grid grid-cols-12 gap-8 lg:gap-12">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 min-w-0">
                 
                 {/* Left Column - Details */}
-                <div className="col-span-12 lg:col-span-4 flex flex-col gap-10">
+                <div className="lg:col-span-4 min-w-0 flex flex-col gap-10">
                   {/* Description */}
                   <div>
                     <h4 className="text-xs uppercase tracking-[0.2em] text-[#8C8A82] mb-3 flex items-center gap-2 font-semibold">
@@ -628,16 +662,16 @@ function App() {
                   {/* Specialties */}
                   <div>
                     <h4 className="text-xs uppercase tracking-[0.2em] text-[#8C8A82] mb-4 font-semibold">Especialidades</h4>
-                    <div className="flex flex-col gap-4">
-                      <div className="flex items-end justify-between border-b border-[#8C8A82]/20 pb-2 group cursor-pointer">
+                    <div className="event-specialties flex w-full min-w-0 flex-col gap-4">
+                      <div className="flex w-full min-w-0 items-end justify-between gap-3 border-b border-[#8C8A82]/20 pb-2 group cursor-pointer">
                         <span className="text-xs text-[#8C8A82] group-hover:text-[#504D4B] transition-colors">Criação & Execução</span>
                         <span className="text-sm font-medium text-[#504D4B]">100%</span>
                       </div>
-                      <div className="flex items-end justify-between border-b border-[#8C8A82]/20 pb-2 group cursor-pointer">
+                      <div className="flex w-full min-w-0 items-end justify-between gap-3 border-b border-[#8C8A82]/20 pb-2 group cursor-pointer">
                         <span className="text-xs text-[#8C8A82] group-hover:text-[#504D4B] transition-colors">Experiência</span>
                         <span className="text-sm font-medium text-[#504D4B]">Premium</span>
                       </div>
-                      <div className="flex items-end justify-between border-b border-[#8C8A82]/20 pb-2 group cursor-pointer">
+                      <div className="flex w-full min-w-0 items-end justify-between gap-3 border-b border-[#8C8A82]/20 pb-2 group cursor-pointer">
                         <span className="text-xs text-[#8C8A82] group-hover:text-[#504D4B] transition-colors">Personalizadas</span>
                         <span className="text-sm font-medium text-[#504D4B]">Sim</span>
                       </div>
@@ -672,7 +706,7 @@ function App() {
                 </div>
 
                 {/* Right Column - Video */}
-                <div className="col-span-12 lg:col-span-8 relative">
+                <div className="lg:col-span-8 min-w-0 relative">
                   {/* Thin border wrapper */}
                   <div className="p-[1px] bg-gradient-to-b from-[#8C8A82]/40 to-transparent rounded-2xl w-full">
                     <div className="aspect-[4/3] lg:aspect-[16/9] w-full bg-[#F4F3F2] rounded-[15px] overflow-hidden relative group">
@@ -682,8 +716,8 @@ function App() {
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#504D4B]/20"></div>
                       
                       {/* Floating Overlay Status */}
-                      <div className="absolute bottom-6 left-6 md:bottom-8 md:left-8 p-[1px] rounded-xl bg-gradient-to-b from-white/80 to-white/40 backdrop-blur-md">
-                        <div className="bg-white/95 p-5 md:p-6 rounded-[11px] shadow-xl flex items-center gap-4 min-w-fit">
+                      <div className="absolute bottom-4 left-4 max-w-[calc(100%-2rem)] md:bottom-8 md:left-8 p-[1px] rounded-xl bg-gradient-to-b from-white/80 to-white/40 backdrop-blur-md">
+                        <div className="bg-white/95 p-4 sm:p-5 md:p-6 rounded-[11px] shadow-xl flex items-center gap-3 sm:gap-4 min-w-0 max-w-full">
                           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#C4B09D] to-[#8C8A82] flex items-center justify-center shrink-0">
                             <iconify-icon icon="solar:check-circle-linear" className="text-white text-lg"></iconify-icon>
                           </div>
@@ -1215,7 +1249,7 @@ function App() {
             </div>
 
             {/* Briefing Summary Card */}
-            <div className="w-full md:w-1/3 sticky top-24">
+            <div className="w-full md:w-1/3 md:sticky md:top-24">
               <div className="p-8 rounded-2xl shadow-xl relative overflow-hidden bg-white border border-[#8C8A82]/10">
                 <div className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-5 -mr-10 -mt-10 bg-[#C4B09D]"></div>
                 <h3 className="text-xl font-semibold tracking-tight mb-6 relative z-10 text-[#504D4B] font-playfair">Por Que Falar Conosco</h3>
@@ -1253,7 +1287,7 @@ function App() {
 
           <div className="space-y-4">
             <details className="group rounded-xl border overflow-hidden transition-all open:ring-1 open:ring-[#504D4B]/5 bg-white border-[#8C8A82]/20 hover:border-[#8C8A82]/40">
-              <summary className="flex items-center justify-between p-6 cursor-pointer text-lg font-medium select-none text-[#504D4B]">
+              <summary className="flex items-center justify-between p-4 sm:p-6 cursor-pointer text-base sm:text-lg font-medium select-none text-[#504D4B]">
                 Como é o processo de trabalho da Xá das Cinco?
                 <span className="ml-4 flex-shrink-0 transition-transform duration-300 group-open:rotate-180">
                   <iconify-icon icon="solar:alt-arrow-down-linear" style={{ strokeWidth: '1.5' }} className="w-5 h-5 text-xl"></iconify-icon>
@@ -1367,7 +1401,7 @@ function App() {
               </div>
             </div>
 
-            <div className="p-8 md:p-12 rounded-2xl border shadow-sm flex flex-col justify-center h-full bg-[#F4F3F2] border-[#8C8A82]/20">
+            <div className="p-6 sm:p-8 md:p-12 rounded-2xl border shadow-sm flex flex-col justify-center h-full bg-[#F4F3F2] border-[#8C8A82]/20">
               <div className="mb-10">
                 <div className="inline-flex items-center justify-center p-3 rounded-xl mb-6 bg-white shadow-sm">
                   <iconify-icon icon="solar:point-on-map-linear" style={{ strokeWidth: '1.5' }} className="w-6 h-6 text-2xl text-[#504D4B]"></iconify-icon>
@@ -1464,8 +1498,8 @@ function App() {
       </footer>
 
       {/* Floating Action Button */}
-      <div className="fixed group flex flex-col z-50 right-6 bottom-6 gap-x-3 gap-y-6 items-end">
-        <div className="flex flex-col gap-3 transition-all duration-300 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto opacity-0 translate-y-4 items-end">
+      <div className="fixed group flex flex-col z-50 right-4 sm:right-6 bottom-4 sm:bottom-6 gap-x-3 gap-y-6 items-end">
+        <div className={`flex flex-col gap-3 transition-all duration-300 items-end ${quickActionsOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none sm:group-hover:opacity-100 sm:group-hover:translate-y-0 sm:group-hover:pointer-events-auto'}`}>
           <a href="mailto:hello@xadascinco.com" className="flex items-center gap-3 transition-colors hover:bg-[#F4F3F2] text-[#504D4B] bg-white border-[#8C8A82]/20 border rounded-full pt-2 pr-3 pb-2 pl-4 shadow-lg">
             <span className="text-sm font-medium">Enviar Email</span>
             <div className="w-8 h-8 rounded-full bg-[#C4B09D] flex items-center justify-center text-white">
@@ -1480,7 +1514,7 @@ function App() {
           </a>
         </div>
 
-        <button className="flex transition-transform duration-300 group-hover:scale-110 text-white bg-[#504D4B] w-14 h-14 rounded-full relative shadow-xl items-center justify-center ring-1 ring-[#8C8A82]/20">
+        <button type="button" aria-label="Abrir contatos rápidos" aria-expanded={quickActionsOpen} onClick={() => setQuickActionsOpen((open) => !open)} className="flex transition-transform duration-300 group-hover:scale-110 text-white bg-[#504D4B] w-12 h-12 sm:w-14 sm:h-14 rounded-full relative shadow-xl items-center justify-center ring-1 ring-[#8C8A82]/20">
           <span className="absolute inline-flex h-full w-full rounded-full bg-[#C4B09D] opacity-20 animate-ping"></span>
           <div className="absolute inset-0 flex items-center justify-center transition-all duration-300 group-hover:opacity-0 group-hover:rotate-90">
             <iconify-icon icon="solar:phone-calling-linear" style={{ strokeWidth: '1.5' }} className="w-6 h-6 text-2xl"></iconify-icon>
